@@ -1,0 +1,2550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bakerz Bite - Freshly Baked with Love. Premium bakery & café. Where smiles are served daily.">
+    <title>Bakerz Bite | Where Smiles Are Served Daily</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+    /* =========================================================
+       BAKERZ BITE - HOME PAGE
+    ========================================================= */
+    :root {
+        --bb-light-pink: #F7D0D8;
+        --bb-deep-red: #B21E29;
+        --bb-soft-yellow: #F9E6B5;
+        --bb-dusty-rose: #D68F9A;
+        --bb-pale-cream: #FDF5E6;
+        --bb-white: #ffffff;
+        --bb-dark-text: #4A2025;
+        --bb-soft-text: #76565A;
+        --bb-shadow: 0 10px 30px rgba(178, 30, 41, 0.10);
+        --bb-shadow-sm: 0 4px 15px rgba(178, 30, 41, 0.08);
+        --bb-transition: 0.3s ease;
+        --bb-radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bb-pale-cream);
+        background-image: url('images/pattern-light.png');
+        background-repeat: repeat;
+        background-size: 280px;
+        background-attachment: fixed;
+        color: var(--bb-dark-text);
+        line-height: 1.7;
+        padding-bottom: 50px;
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 { font-family: "DM Serif Display", serif; line-height: 1.2; }
+    a { text-decoration: none; }
+    section { padding: 80px 0; position: relative; }
+    .container { width: min(1400px, 94%); margin: auto; }
+
+    .bb-section-heading { max-width: 700px; margin: 0 auto 50px; }
+    .bb-section-heading h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--bb-deep-red);
+        margin-bottom: 15px;
+    }
+    .bb-section-heading p { color: var(--bb-soft-text); font-size: 15px; }
+    .bb-section-label {
+        color: var(--bb-deep-red);
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+    }
+
+    /* =========================================================
+       LOCATION POPUP
+    ========================================================= */
+    .bb-loc-popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(74, 32, 37, 0.55);
+        z-index: 10800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        backdrop-filter: blur(6px);
+    }
+    .bb-loc-popup.show { opacity: 1; visibility: visible; }
+    .bb-loc-card {
+        background: var(--bb-white);
+        border-radius: 24px;
+        width: 100%;
+        max-width: 520px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(74, 32, 37, 0.40);
+        transform: translateY(30px) scale(0.96);
+        transition: transform 0.4s ease;
+        max-height: 94vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .bb-loc-popup.show .bb-loc-card { transform: translateY(0) scale(1); }
+    .bb-loc-header {
+        background: var(--bb-deep-red);
+        padding: 30px 20px 25px;
+        text-align: center;
+    }
+    .bb-loc-header img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        background: var(--bb-white);
+        border-radius: 50%;
+        padding: 8px;
+        border: 4px solid var(--bb-white);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.20);
+    }
+    .bb-loc-body { padding: 28px 30px 25px; overflow-y: auto; }
+    .bb-loc-title {
+        font-family: "Poppins", sans-serif;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--bb-dark-text);
+        text-align: center;
+        margin-bottom: 22px;
+    }
+    .bb-order-toggle {
+        display: flex;
+        background: #f4f0ea;
+        border-radius: 40px;
+        padding: 5px;
+        max-width: 340px;
+        margin: 0 auto 20px;
+        border: 1px solid rgba(178, 30, 41, 0.08);
+    }
+    .bb-order-toggle button {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 12px 20px;
+        border-radius: 40px;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--bb-soft-text);
+        cursor: pointer;
+        transition: var(--bb-transition);
+        font-family: inherit;
+    }
+    .bb-order-toggle button.active {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        box-shadow: 0 6px 15px rgba(178, 30, 41, 0.25);
+    }
+    .bb-loc-question {
+        text-align: center;
+        font-size: 14px;
+        color: var(--bb-soft-text);
+        margin-bottom: 18px;
+        font-weight: 500;
+    }
+    .bb-loc-use-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto 20px;
+        padding: 13px 22px;
+        background: var(--bb-white);
+        border: 2px solid var(--bb-deep-red);
+        border-radius: 40px;
+        color: var(--bb-deep-red);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--bb-transition);
+        font-family: inherit;
+    }
+    .bb-loc-use-btn:hover { background: var(--bb-deep-red); color: var(--bb-white); }
+    .bb-loc-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--bb-dark-text);
+        margin-bottom: 8px;
+        display: block;
+    }
+    .bb-loc-select {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid rgba(178, 30, 41, 0.15);
+        border-radius: 14px;
+        font-size: 15px;
+        font-family: inherit;
+        font-weight: 600;
+        color: var(--bb-dark-text);
+        background: var(--bb-white) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234A2025' stroke-width='3'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 18px center;
+        background-size: 14px;
+        appearance: none;
+        cursor: pointer;
+        margin-bottom: 16px;
+        outline: none;
+    }
+    .bb-branch-details {
+        background: #fdf1f2;
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin-bottom: 22px;
+        border: 1px solid rgba(178, 30, 41, 0.10);
+    }
+    .bb-branch-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .bb-branch-icon {
+        width: 40px; height: 40px; flex-shrink: 0;
+        border-radius: 50%;
+        background: var(--bb-light-pink);
+        color: var(--bb-deep-red);
+        display: grid; place-items: center;
+        font-size: 16px;
+    }
+    .bb-branch-label {
+        font-size: 11px; font-weight: 800;
+        color: var(--bb-deep-red);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+    }
+    .bb-branch-name { font-size: 14px; font-weight: 700; color: var(--bb-dark-text); margin: 0; }
+    .bb-branch-address { font-size: 13px; color: var(--bb-soft-text); margin: 0 0 12px 52px; }
+    .bb-branch-directions {
+        display: inline-flex; align-items: center; gap: 7px;
+        margin-left: 52px;
+        color: var(--bb-deep-red);
+        font-size: 13px; font-weight: 700;
+    }
+    .bb-loc-select-btn {
+        width: 100%;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border: none;
+        padding: 17px;
+        border-radius: 40px;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        font-family: inherit;
+        letter-spacing: 1px;
+        box-shadow: 0 8px 20px rgba(178, 30, 41, 0.25);
+    }
+
+    /* =========================================================
+       NAVBAR
+    ========================================================= */
+    .bb-navbar {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 10px 0;
+        box-shadow: 0 2px 15px rgba(178, 30, 41, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(178, 30, 41, 0.06);
+        padding-bottom: 10px;
+    }
+    .bb-nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        flex-wrap: nowrap;
+        min-height: 70px;
+    }
+    .bb-nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        min-width: 0;
+    }
+    .bb-nav-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 20px;
+        border-radius: 40px;
+        background: var(--bb-pale-cream);
+        color: var(--bb-dark-text);
+        font-size: 14px;
+        font-weight: 600;
+        border: 1px solid rgba(178, 30, 41, 0.08);
+        transition: var(--bb-transition);
+        white-space: nowrap;
+        cursor: pointer;
+    }
+    .bb-nav-pill:hover { background: var(--bb-light-pink); }
+    .bb-nav-pill i { color: var(--bb-deep-red); font-size: 16px; }
+    .bb-nav-pill .bb-pill-label {
+        font-size: 11px;
+        color: var(--bb-soft-text);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        display: block;
+        line-height: 1;
+    }
+    .bb-nav-pill .bb-pill-value {
+        color: var(--bb-deep-red);
+        font-weight: 700;
+        font-size: 14px;
+        display: block;
+        line-height: 1.2;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .bb-nav-pill .bb-chev { font-size: 11px; color: var(--bb-soft-text); }
+
+    .bb-nav-center {
+        flex-shrink: 0;
+        text-align: center;
+        position: relative;
+        z-index: 1035;
+    }
+    .bb-nav-center .bb-logo {
+        display: block;
+        position: relative;
+    }
+    .bb-nav-center .bb-logo img {
+        width: 140px;
+        height: 140px;
+        object-fit: contain;
+        transition: var(--bb-transition);
+        filter: drop-shadow(0 6px 16px rgba(178, 30, 41, 0.20));
+        background: var(--bb-white);
+        border-radius: 50%;
+        padding: 6px;
+        margin-top: 5px;
+        margin-bottom: -70px;
+    }
+    .bb-nav-center .bb-logo:hover img { transform: scale(1.05); }
+
+    .bb-nav-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        flex: 1;
+        min-width: 0;
+    }
+    .bb-nav-locations-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 26px;
+        border-radius: 40px;
+        background: var(--bb-white);
+        color: var(--bb-dark-text);
+        font-size: 15px;
+        font-weight: 700;
+        border: 1.5px solid rgba(74, 32, 37, 0.15);
+        transition: var(--bb-transition);
+        white-space: nowrap;
+        cursor: pointer;
+        font-family: inherit;
+        box-shadow: 0 2px 8px rgba(74, 32, 37, 0.04);
+    }
+    .bb-nav-locations-btn:hover {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border-color: var(--bb-deep-red);
+        transform: translateY(-2px);
+    }
+    .bb-nav-cart {
+        position: relative;
+        width: 56px;
+        height: 56px;
+        padding: 0;
+        border-radius: 50%;
+        justify-content: center;
+        background: var(--bb-white);
+        border: 1.5px solid rgba(74, 32, 37, 0.15);
+        color: var(--bb-dark-text);
+        font-size: 22px;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        transition: var(--bb-transition);
+        box-shadow: 0 2px 8px rgba(74, 32, 37, 0.04);
+    }
+    .bb-nav-cart:hover {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border-color: var(--bb-deep-red);
+        transform: translateY(-2px);
+    }
+    .bb-cart-count {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        font-size: 11px;
+        font-weight: 800;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--bb-white);
+    }
+    .bb-nav-divider {
+        width: 1.5px;
+        height: 38px;
+        background: rgba(74, 32, 37, 0.15);
+        margin: 0 6px;
+    }
+    .bb-menu-toggle {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(74, 32, 37, 0.15);
+        background: var(--bb-white);
+        color: var(--bb-dark-text);
+        font-size: 22px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: var(--bb-transition);
+        box-shadow: 0 2px 8px rgba(74, 32, 37, 0.04);
+    }
+    .bb-menu-toggle:hover {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border-color: var(--bb-deep-red);
+        transform: translateY(-2px);
+    }
+
+    /* =========================================================
+       DROPDOWN MENU PANEL
+    ========================================================= */
+    .bb-dropdown-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(74, 32, 37, 0.50);
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+        backdrop-filter: blur(4px);
+    }
+    .bb-dropdown-overlay.show { opacity: 1; visibility: visible; }
+    .bb-dropdown-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 400px;
+        max-width: 90vw;
+        height: 100vh;
+        background: var(--bb-white);
+        z-index: 1045;
+        transform: translateX(100%);
+        transition: transform 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        box-shadow: -10px 0 40px rgba(74, 32, 37, 0.20);
+        overflow-y: auto;
+    }
+    .bb-dropdown-panel.show { transform: translateX(0); }
+    .bb-dropdown-header {
+        padding: 25px 30px;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+    }
+    .bb-dropdown-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 24px;
+        margin: 0;
+        color: var(--bb-white);
+    }
+    .bb-dropdown-close {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.15);
+        color: var(--bb-white);
+        font-size: 18px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: var(--bb-transition);
+    }
+    .bb-dropdown-close:hover {
+        background: var(--bb-white);
+        color: var(--bb-deep-red);
+    }
+    .bb-dropdown-body {
+        padding: 25px 30px 35px;
+        flex: 1;
+    }
+    .bb-dropdown-section-title {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--bb-soft-text);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+    .bb-dropdown-section-title:not(:first-child) { margin-top: 30px; }
+    .bb-dropdown-list { list-style: none; padding: 0; margin: 0; }
+    .bb-dropdown-list li a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--bb-dark-text);
+        border-radius: 12px;
+        transition: var(--bb-transition);
+        margin-bottom: 4px;
+    }
+    .bb-dropdown-list li a:hover,
+    .bb-dropdown-list li a.active {
+        background: var(--bb-light-pink);
+        color: var(--bb-deep-red);
+        padding-left: 22px;
+    }
+    .bb-dropdown-list li a i {
+        color: var(--bb-deep-red);
+        width: 22px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    /* =========================================================
+       HERO SLIDER
+    ========================================================= */
+    .bb-hero {
+        position: relative;
+        width: min(1520px, 98%);
+        margin: 25px auto 0;
+        min-height: 640px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 30px;
+        background: #f2ede4;
+        padding: 100px 0 70px;
+        box-shadow: 0 15px 40px rgba(178, 30, 41, 0.12);
+    }
+    .bb-hero-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transition: opacity 1.2s ease;
+        z-index: 0;
+    }
+    .bb-hero-slide.active { opacity: 1; }
+    .bb-hero-slide::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            90deg,
+            rgba(253, 245, 230, 0.85) 0%,
+            rgba(253, 245, 230, 0.60) 35%,
+            rgba(253, 245, 230, 0.15) 60%,
+            rgba(253, 245, 230, 0.00) 100%
+        );
+    }
+    .bb-hero-inner {
+        position: relative;
+        z-index: 2;
+        width: min(1400px, 94%);
+        margin: 0 auto;
+    }
+    .bb-hero-content { max-width: 620px; }
+    .bb-hero-eyebrow {
+        font-family: "DM Serif Display", serif;
+        font-size: 22px;
+        color: var(--bb-deep-red);
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+        font-weight: 400;
+    }
+    .bb-hero-title {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(3rem, 6vw, 5.8rem);
+        color: var(--bb-deep-red);
+        font-weight: 400;
+        line-height: 1;
+        margin-bottom: 20px;
+        letter-spacing: -1.5px;
+        text-shadow: 0 2px 20px rgba(255, 255, 255, 0.6);
+    }
+    .bb-hero-title span { color: var(--bb-deep-red); font-style: italic; }
+    .bb-hero-text {
+        font-size: 17px;
+        color: var(--bb-dark-text);
+        margin-bottom: 32px;
+        max-width: 520px;
+        font-weight: 500;
+        text-shadow: 0 1px 10px rgba(255, 255, 255, 0.7);
+    }
+    .bb-hero-text strong { color: var(--bb-deep-red); font-weight: 700; }
+    .bb-hero-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--bb-white);
+        border: none;
+        color: var(--bb-deep-red);
+        font-size: 20px;
+        box-shadow: 0 8px 25px rgba(74, 32, 37, 0.18);
+        z-index: 6;
+        transition: var(--bb-transition);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+    }
+    .bb-hero-arrow:hover { background: var(--bb-deep-red); color: var(--bb-white); transform: translateY(-50%) scale(1.08); }
+    .bb-hero-arrow-left { left: 25px; }
+    .bb-hero-arrow-right { right: 25px; }
+    .bb-hero-dots {
+        position: absolute;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 5;
+    }
+    .bb-hero-dots span {
+        width: 36px;
+        height: 6px;
+        background: rgba(178, 30, 41, 0.30);
+        border-radius: 5px;
+        transition: var(--bb-transition);
+        cursor: pointer;
+    }
+    .bb-hero-dots span.active {
+        background: var(--bb-deep-red);
+        width: 52px;
+    }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+    .bb-btn-primary, .bb-btn-outline, .bb-btn-light {
+        padding: 14px 28px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 700;
+        border: 2px solid transparent;
+        transition: var(--bb-transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    .bb-btn-primary {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border-color: var(--bb-deep-red);
+        box-shadow: 0 8px 20px rgba(178, 30, 41, 0.20);
+    }
+    .bb-btn-primary:hover {
+        background: #941923;
+        border-color: #941923;
+        color: var(--bb-white);
+        transform: translateY(-3px);
+    }
+    .bb-btn-outline {
+        background: var(--bb-white);
+        color: var(--bb-deep-red);
+        border-color: var(--bb-deep-red);
+    }
+    .bb-btn-outline:hover {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        transform: translateY(-3px);
+    }
+
+    /* =========================================================
+       CATEGORIES
+    ========================================================= */
+    .bb-categories {
+        background: rgba(247, 208, 216, 0.85);
+        border-radius: 30px;
+        width: min(1400px, 96%);
+        margin: 0 auto;
+    }
+    .bb-category-card {
+        background: rgba(253, 245, 230, 0.95);
+        padding: 32px 24px;
+        border-radius: var(--bb-radius);
+        border: 1px solid rgba(178, 30, 41, 0.08);
+        transition: var(--bb-transition);
+        color: inherit;
+        text-align: center;
+        backdrop-filter: blur(5px);
+    }
+    .bb-category-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--bb-shadow);
+        background: var(--bb-white);
+        color: inherit;
+    }
+    .bb-category-icon {
+        width: 72px;
+        height: 72px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--bb-soft-yellow);
+        color: var(--bb-deep-red);
+        font-size: 28px;
+        margin: 0 auto 18px;
+        transition: var(--bb-transition);
+    }
+    .bb-category-card:hover .bb-category-icon {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        transform: rotate(-8deg) scale(1.05);
+    }
+    .bb-category-card h3 { color: var(--bb-deep-red); font-size: 24px; margin-bottom: 10px; }
+    .bb-category-card p { color: var(--bb-soft-text); font-size: 14px; margin-bottom: 16px; }
+    .bb-category-card span {
+        color: var(--bb-deep-red);
+        font-size: 14px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--bb-transition);
+    }
+    .bb-category-card:hover span { gap: 12px; }
+
+    /* =========================================================
+       FEATURED PRODUCTS — Double Image Hover Effect
+    ========================================================= */
+    .bb-uk-card {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: var(--bb-radius);
+        overflow: hidden;
+        box-shadow: var(--bb-shadow-sm);
+        border: 1px solid rgba(178, 30, 41, 0.06);
+        transition: var(--bb-transition);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(5px);
+    }
+    .bb-uk-card:hover { transform: translateY(-6px); box-shadow: var(--bb-shadow); }
+    .bb-uk-card-head { padding: 16px 18px 10px; background: var(--bb-white); }
+    .bb-size-pills { display: flex; gap: 8px; margin-bottom: 14px; }
+    .bb-size-pills span {
+        padding: 5px 14px;
+        font-size: 11px;
+        font-weight: 800;
+        border-radius: 20px;
+        border: 1.5px solid rgba(178, 30, 41, 0.25);
+        color: var(--bb-deep-red);
+        background: var(--bb-white);
+        transition: var(--bb-transition);
+        letter-spacing: 0.5px;
+        cursor: pointer;
+    }
+    .bb-size-pills span.active {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border-color: var(--bb-deep-red);
+    }
+    .bb-uk-card-price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .bb-price-label { font-size: 13px; color: var(--bb-soft-text); font-weight: 500; }
+    .bb-price-label strong { color: var(--bb-deep-red); font-size: 17px; font-weight: 800; }
+    .bb-add-btn {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border: none;
+        padding: 8px 22px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        transition: var(--bb-transition);
+        cursor: pointer;
+    }
+    .bb-add-btn:hover { background: #941923; transform: scale(1.05); }
+
+    /* Double image container */
+    .bb-uk-card-img {
+        position: relative;
+        height: 270px;
+        overflow: hidden;
+        background: var(--bb-pale-cream);
+    }
+
+    /* Both images — same position, stacked */
+    .bb-uk-card-img .bb-img-primary,
+    .bb-uk-card-img .bb-img-hover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
+        transition: opacity 0.5s ease, transform 0.6s ease;
+    }
+
+    /* Primary image — visible by default */
+    .bb-uk-card-img .bb-img-primary {
+        opacity: 1;
+        z-index: 2;
+    }
+
+    /* Hover image — hidden by default */
+    .bb-uk-card-img .bb-img-hover {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    /* On card hover — swap images */
+    .bb-uk-card:hover .bb-uk-card-img .bb-img-primary {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+    .bb-uk-card:hover .bb-uk-card-img .bb-img-hover {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    .bb-new-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--bb-soft-yellow);
+        color: var(--bb-deep-red);
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        z-index: 5;
+    }
+    .bb-uk-card-body {
+        padding: 20px 18px 24px;
+        background: var(--bb-white);
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .bb-uk-card-body h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--bb-dark-text);
+        letter-spacing: 0.6px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+    .bb-uk-card-body p {
+        font-size: 13px;
+        color: var(--bb-soft-text);
+        margin: 0;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    /* =========================================================
+       OFFERS
+    ========================================================= */
+    .bb-offers-section {
+        background: rgba(178, 30, 41, 0.94);
+        border-radius: 30px;
+        width: min(1400px, 96%);
+        margin: 0 auto;
+        padding: 70px 0;
+        color: var(--bb-white);
+    }
+    .bb-offers-section .bb-section-heading h2 { color: var(--bb-white); }
+    .bb-offers-section .bb-section-label { color: var(--bb-soft-yellow); }
+    .bb-offers-section .bb-section-heading p { color: rgba(255, 255, 255, 0.85); }
+    .bb-offer-card {
+        background: var(--bb-white);
+        border-radius: 20px;
+        padding: 30px 24px 26px;
+        position: relative;
+        text-align: center;
+        overflow: hidden;
+        height: 100%;
+        color: var(--bb-dark-text);
+        transition: var(--bb-transition);
+    }
+    .bb-offer-card:hover { transform: translateY(-6px); }
+    .bb-offer-card .bb-offer-badge {
+        position: absolute;
+        top: 15px; right: -38px;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        padding: 6px 48px;
+        transform: rotate(35deg);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+    .bb-offer-icon-sm {
+        width: 70px;
+        height: 70px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--bb-light-pink);
+        color: var(--bb-deep-red);
+        font-size: 28px;
+        margin: 10px auto 18px;
+    }
+    .bb-offer-card h3 { color: var(--bb-deep-red); font-size: 20px; margin-bottom: 10px; }
+    .bb-offer-card p { color: var(--bb-soft-text); font-size: 13px; margin-bottom: 15px; min-height: 55px; }
+    .bb-offer-valid {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--bb-deep-red);
+        background: var(--bb-soft-yellow);
+        padding: 5px 14px;
+        border-radius: 20px;
+    }
+
+    /* =========================================================
+       GALLERY (6 Images)
+    ========================================================= */
+    .bb-gallery-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr;
+        grid-template-rows: 240px 240px;
+        gap: 15px;
+    }
+    .bb-gallery-item {
+        overflow: hidden;
+        border-radius: 18px;
+        background: var(--bb-light-pink);
+        cursor: pointer;
+        box-shadow: var(--bb-shadow-sm);
+        position: relative;
+    }
+    .bb-gallery-large { grid-row: span 2; }
+    .bb-gallery-item.bb-gallery-last {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+    .bb-gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.5s ease;
+        display: block;
+    }
+    .bb-gallery-item:hover img { transform: scale(1.06); }
+
+    /* =========================================================
+       CTA
+    ========================================================= */
+    .bb-cta {
+        background: rgba(247, 208, 216, 0.88);
+        border-radius: 30px;
+        width: min(1400px, 96%);
+        margin: 0 auto;
+    }
+    .bb-cta-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--bb-deep-red);
+        margin-bottom: 15px;
+    }
+    .bb-cta-title span { color: var(--bb-dusty-rose); }
+    .bb-cta-text { color: var(--bb-soft-text); font-size: 15px; }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    .bb-footer {
+        background: rgba(178, 30, 41, 0.96);
+        color: var(--bb-white);
+        padding-top: 60px;
+        margin-top: 40px;
+    }
+    .bb-footer-text {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+        max-width: 300px;
+        margin: 15px 0;
+    }
+    .bb-social {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--bb-light-pink);
+        color: var(--bb-deep-red);
+        transition: var(--bb-transition);
+        font-size: 15px;
+    }
+    .bb-social:hover {
+        background: var(--bb-soft-yellow);
+        transform: translateY(-3px);
+    }
+    .bb-footer-title {
+        color: var(--bb-soft-yellow);
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    .bb-footer-link {
+        display: block;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+        margin-bottom: 10px;
+        transition: var(--bb-transition);
+    }
+    .bb-footer-link:hover { color: var(--bb-soft-yellow); padding-left: 5px; }
+    .bb-footer-contact {
+        display: flex;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+    .bb-footer-contact i { color: var(--bb-soft-yellow); margin-top: 5px; }
+    .bb-footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 20px 0;
+        margin-top: 20px;
+    }
+    .bb-footer-bottom p {
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 13px;
+        margin: 0;
+    }
+    .bb-footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--bb-white);
+        font-family: "DM Serif Display", serif;
+        font-size: 24px;
+    }
+    .bb-footer-logo img {
+        width: 65px;
+        height: 65px;
+        object-fit: contain;
+        background: var(--bb-white);
+        border-radius: 50%;
+        padding: 4px;
+    }
+
+    /* =========================================================
+       FLOATING BUTTONS
+    ========================================================= */
+    .bb-float {
+        position: fixed;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 26px;
+        border: none;
+        cursor: pointer;
+        z-index: 1040;
+        transition: var(--bb-transition);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.20);
+    }
+    .bb-whatsapp {
+        background: #25D366;
+        color: var(--bb-white);
+        bottom: 85px;
+        right: 25px;
+    }
+    .bb-whatsapp:hover { transform: scale(1.10); color: var(--bb-white); }
+    .bb-scroll-top {
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        bottom: 155px;
+        right: 25px;
+        font-size: 20px;
+        opacity: 0;
+        visibility: hidden;
+    }
+    .bb-scroll-top.show { opacity: 1; visibility: visible; }
+
+    /* =========================================================
+       BOTTOM TICKER
+    ========================================================= */
+    .bb-ticker {
+        position: fixed;
+        bottom: 0;
+        left: 0; right: 0;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        padding: 12px 0;
+        overflow: hidden;
+        z-index: 1035;
+        border-top: 3px solid var(--bb-soft-yellow);
+        font-size: 14px;
+    }
+    .bb-ticker-track {
+        display: inline-block;
+        white-space: nowrap;
+        animation: bbTickerScroll 35s linear infinite;
+        padding-left: 100%;
+    }
+    .bb-ticker-track:hover { animation-play-state: paused; }
+    .bb-ticker span {
+        margin: 0 45px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .bb-ticker i, .bb-ticker strong { color: var(--bb-soft-yellow); }
+    @keyframes bbTickerScroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
+    /* =========================================================
+       PRODUCT MODAL
+    ========================================================= */
+    .bb-product-modal .modal-content {
+        border-radius: 24px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 25px 70px rgba(74, 32, 37, 0.30);
+    }
+    .bb-modal-row { min-height: 620px; }
+    .bb-modal-img-col {
+        position: relative;
+        background: #f2ede4;
+        overflow: hidden;
+        min-height: 380px;
+    }
+    .bb-modal-img-col img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
+    }
+    .bb-modal-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 42px; height: 42px;
+        border-radius: 50%;
+        background: var(--bb-white);
+        color: var(--bb-deep-red);
+        border: none;
+        display: grid; place-items: center;
+        z-index: 5;
+        cursor: pointer;
+    }
+    .bb-modal-arrow-left { left: 15px; }
+    .bb-modal-arrow-right { right: 15px; }
+    .bb-modal-img-title {
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        padding: 20px 28px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.78), transparent);
+        color: var(--bb-white);
+        font-family: "DM Serif Display", serif;
+        font-size: 26px;
+        z-index: 3;
+    }
+    .bb-modal-info-col {
+        padding: 35px 40px;
+        background: var(--bb-white);
+        display: flex;
+        flex-direction: column;
+    }
+    .bb-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 18px;
+        gap: 15px;
+    }
+    .bb-modal-price {
+        font-family: "Poppins", sans-serif;
+        font-size: 36px;
+        font-weight: 800;
+        color: var(--bb-dark-text);
+        margin: 0;
+        line-height: 1;
+    }
+    .bb-modal-header-icons { display: flex; gap: 10px; }
+    .bb-modal-icon-btn {
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        border: none;
+        display: grid; place-items: center;
+        font-size: 17px;
+        cursor: pointer;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+    }
+    .bb-modal-desc {
+        font-size: 15px;
+        color: var(--bb-soft-text);
+        margin-bottom: 26px;
+        line-height: 1.65;
+    }
+    .bb-modal-section { margin-bottom: 26px; }
+    .bb-modal-section-title {
+        font-family: "Poppins", sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        color: var(--bb-dark-text);
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+    .bb-modal-options { display: flex; gap: 12px; flex-wrap: wrap; }
+    .bb-option-pill {
+        flex: 1;
+        min-width: 150px;
+        border: 2px solid rgba(178, 30, 41, 0.20);
+        border-radius: 14px;
+        padding: 16px 20px;
+        cursor: pointer;
+        background: var(--bb-white);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: var(--bb-transition);
+    }
+    .bb-option-pill.active {
+        border-color: var(--bb-deep-red);
+        background: #fff5f6;
+    }
+    .bb-option-radio {
+        width: 20px; height: 20px;
+        border-radius: 50%;
+        border: 2px solid rgba(178, 30, 41, 0.40);
+        position: relative;
+        flex-shrink: 0;
+    }
+    .bb-option-pill.active .bb-option-radio { border-color: var(--bb-deep-red); }
+    .bb-option-pill.active .bb-option-radio::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        background: var(--bb-deep-red);
+        border-radius: 50%;
+    }
+    .bb-option-info { display: flex; flex-direction: column; line-height: 1.3; }
+    .bb-option-name {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--bb-deep-red);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    .bb-option-price { font-size: 14px; font-weight: 700; }
+    .bb-modal-textarea {
+        width: 100%;
+        border: 2px solid rgba(178, 30, 41, 0.15);
+        border-radius: 14px;
+        padding: 16px 20px;
+        font-size: 14px;
+        font-family: inherit;
+        resize: vertical;
+        min-height: 120px;
+        outline: none;
+    }
+    .bb-modal-charcount {
+        text-align: right;
+        font-size: 12px;
+        color: #b8a9a9;
+        margin-top: 6px;
+    }
+    .bb-modal-footer {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: auto;
+        padding-top: 22px;
+        border-top: 1px solid rgba(178, 30, 41, 0.08);
+    }
+    .bb-qty-box {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: var(--bb-pale-cream);
+        border-radius: 30px;
+        padding: 8px 10px;
+    }
+    .bb-qty-btn {
+        width: 38px; height: 38px;
+        border-radius: 50%;
+        border: none;
+        background: var(--bb-white);
+        color: var(--bb-deep-red);
+        display: grid; place-items: center;
+        cursor: pointer;
+    }
+    .bb-qty-value {
+        font-size: 17px;
+        font-weight: 800;
+        color: var(--bb-deep-red);
+        min-width: 24px;
+        text-align: center;
+    }
+    .bb-add-cart-btn {
+        flex: 1;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        border: none;
+        padding: 17px 24px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+    }
+    .bb-add-cart-divider { opacity: 0.4; }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+    .bb-toast {
+        position: fixed;
+        bottom: 75px;
+        right: 25px;
+        background: var(--bb-deep-red);
+        color: var(--bb-white);
+        padding: 15px 24px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        transform: translateY(120%);
+        transition: transform 0.4s ease;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .bb-toast.show { transform: translateY(0); }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 1199px) {
+        .bb-nav-center .bb-logo img { width: 120px; height: 120px; margin-bottom: -55px; }
+        .bb-nav-pill { padding: 9px 16px; font-size: 13px; }
+        .bb-nav-pill .bb-pill-value { max-width: 110px; }
+        .bb-nav-locations-btn { padding: 12px 20px; font-size: 14px; }
+        .bb-hero { min-height: 580px; }
+    }
+
+    @media (max-width: 991px) {
+        .bb-nav-left .bb-nav-pill:first-child { display: none; }
+        .bb-nav-center .bb-logo img { width: 105px; height: 105px; margin-bottom: -45px; }
+        .bb-nav-locations-btn { padding: 11px 18px; font-size: 13px; }
+        .bb-nav-locations-btn span { display: none; }
+        .bb-nav-cart, .bb-menu-toggle { width: 50px; height: 50px; font-size: 20px; }
+
+        .bb-hero { min-height: 520px; padding: 90px 0 55px; border-radius: 24px; }
+        .bb-hero-title { font-size: 3.4rem; }
+        .bb-hero-arrow { width: 46px; height: 46px; }
+
+        .bb-modal-row { min-height: auto; }
+        .bb-modal-info-col { padding: 28px 25px; }
+        .bb-modal-img-col { min-height: 340px; }
+        .bb-modal-price { font-size: 28px; }
+    }
+
+    @media (max-width: 767px) {
+        section { padding: 60px 0; }
+
+        .bb-nav-left { display: none; }
+        .bb-nav-center .bb-logo img { width: 88px; height: 88px; margin-bottom: -35px; }
+        .bb-nav-cart, .bb-menu-toggle { width: 46px; height: 46px; font-size: 18px; }
+        .bb-nav-divider { display: none; }
+
+        .bb-hero { min-height: 460px; padding: 80px 0 45px; border-radius: 20px; margin-top: 15px; }
+        .bb-hero-title { font-size: 2.6rem; }
+        .bb-hero-text { font-size: 14px; }
+        .bb-hero-arrow { width: 42px; height: 42px; font-size: 16px; }
+        .bb-hero-arrow-left { left: 12px; }
+        .bb-hero-arrow-right { right: 12px; }
+
+        .bb-gallery-grid {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 200px 200px 180px 200px;
+        }
+        .bb-gallery-large {
+            grid-row: span 2;
+            grid-column: span 2;
+        }
+        .bb-gallery-item.bb-gallery-last {
+            grid-column: 1 / -1;
+            grid-row: auto;
+        }
+
+        .bb-modal-info-col { padding: 25px 20px; }
+        .bb-modal-price { font-size: 26px; }
+        .bb-option-pill { min-width: 100%; }
+
+        .bb-ticker { font-size: 12px; }
+        .bb-ticker span { margin: 0 28px; }
+
+        .bb-whatsapp, .bb-scroll-top { right: 15px; width: 50px; height: 50px; font-size: 22px; }
+        .bb-whatsapp { bottom: 75px; }
+        .bb-scroll-top { bottom: 137px; font-size: 18px; }
+
+        .bb-dropdown-panel { width: 100%; max-width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+        .bb-nav-center .bb-logo img { width: 72px; height: 72px; margin-bottom: -28px; }
+        .bb-nav-cart, .bb-menu-toggle { width: 42px; height: 42px; font-size: 16px; }
+
+        .bb-hero-title { font-size: 2.1rem; }
+        .bb-hero { min-height: 400px; padding: 70px 0 35px; }
+
+        .bb-gallery-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(6, 200px);
+        }
+        .bb-gallery-large, .bb-gallery-item.bb-gallery-last { grid-column: span 1; grid-row: auto; }
+
+        .bb-uk-card-img { height: 230px; }
+    }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOCATION POPUP -->
+    <div class="bb-loc-popup" id="locPopup">
+        <div class="bb-loc-card">
+            <div class="bb-loc-header">
+                <img src="images/logo.png" alt="Bakerz Bite Logo">
+            </div>
+            <div class="bb-loc-body">
+                <h2 class="bb-loc-title">Select Your Order Type</h2>
+
+                <div class="bb-order-toggle">
+                    <button type="button" data-mode="delivery">Delivery</button>
+                    <button type="button" data-mode="pickup" class="active">Pick-Up</button>
+                </div>
+
+                <p class="bb-loc-question" id="locQuestion">
+                    Which outlet would you like to pick-up from?
+                </p>
+
+                <button type="button" class="bb-loc-use-btn" id="useCurrentLocBtn">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    Use Current Location
+                </button>
+
+                <label class="bb-loc-label">Select Branch</label>
+
+                <select class="bb-loc-select" id="branchSelect">
+                    <option value="shahfaisal" data-address="Plot 64, Ibrahim Residency, Main Alamgir Road, Shahfaisal" data-name="Bakerz Bite Shahfaisal" data-lat="24.8720" data-lng="67.1520">
+                        Bakerz Bite Shahfaisal
+                    </option>
+                    <option value="dha" data-address="123 Baker Street, DHA Phase 6, Karachi" data-name="Bakerz Bite DHA Phase 6" data-lat="24.8000" data-lng="67.0500">
+                        Bakerz Bite DHA Phase 6
+                    </option>
+                    <option value="gulshan" data-address="Plot 45, Block 13-D, Gulshan-e-Iqbal, Karachi" data-name="Bakerz Bite Gulshan" data-lat="24.9200" data-lng="67.0900">
+                        Bakerz Bite Gulshan
+                    </option>
+                    <option value="clifton" data-address="Shop 12, Boat Basin, Clifton Block 5, Karachi" data-name="Bakerz Bite Clifton" data-lat="24.8138" data-lng="67.0300">
+                        Bakerz Bite Clifton
+                    </option>
+                </select>
+
+                <div class="bb-branch-details">
+                    <div class="bb-branch-head">
+                        <div class="bb-branch-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <div class="bb-branch-label">Branch Location</div>
+                            <p class="bb-branch-name" id="branchName">Bakerz Bite Shahfaisal</p>
+                        </div>
+                    </div>
+                    <p class="bb-branch-address" id="branchAddress">
+                        Address: Plot 64, Ibrahim Residency, Main Alamgir Road, Shahfaisal
+                    </p>
+                    <a href="#" class="bb-branch-directions" id="branchDirections" target="_blank">
+                        <i class="fa-solid fa-diamond-turn-right"></i>
+                        Get Directions
+                    </a>
+                </div>
+
+                <button type="button" class="bb-loc-select-btn" id="locSelectBtn">
+                    Select
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- NAVBAR -->
+    <nav class="bb-navbar">
+        <div class="container bb-nav-container">
+
+            <div class="bb-nav-left">
+                <span class="bb-nav-pill" id="topbarLocationPill">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <span class="bb-pill-label">PICKUP</span>
+                        <span class="bb-pill-value" id="topbarBranchName">Bakerz Bite Shahfaisal</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right bb-chev"></i>
+                </span>
+
+                <span class="bb-nav-pill">
+                    <i class="fa-solid fa-phone"></i>
+                    <div>
+                        <span class="bb-pill-value">021-111-022-022</span>
+                    </div>
+                </span>
+            </div>
+
+            <div class="bb-nav-center">
+                <a href="index.html" class="bb-logo">
+                    <img src="images/logo.png" alt="Bakerz Bite Logo">
+                </a>
+            </div>
+
+            <div class="bb-nav-right">
+                <button type="button" class="bb-nav-locations-btn" data-bs-toggle="modal" data-bs-target="#signinModal">
+                    <span>Our Locations</span>
+                </button>
+
+                <button type="button" class="bb-nav-cart" aria-label="Shopping Bag">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="bb-cart-count">0</span>
+                </button>
+
+                <div class="bb-nav-divider d-none d-md-block"></div>
+
+                <button type="button" class="bb-menu-toggle" id="bbMenuToggle" aria-label="Open Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- DROPDOWN PANEL -->
+    <div class="bb-dropdown-overlay" id="bbDropdownOverlay"></div>
+
+    <div class="bb-dropdown-panel" id="bbDropdownPanel">
+        <div class="bb-dropdown-header">
+            <h3 class="bb-dropdown-title">
+                <i class="fa-solid fa-cake-candles"></i> Menu
+            </h3>
+            <button type="button" class="bb-dropdown-close" id="bbDropdownClose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="bb-dropdown-body">
+            <div class="bb-dropdown-section-title">Main Pages</div>
+            <ul class="bb-dropdown-list">
+                <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> About Us</a></li>
+                <li><a href="menu.html"><i class="fa-solid fa-book-open"></i> Menu</a></li>
+                <li><a href="merchandise.html"><i class="fa-solid fa-mug-hot"></i> Merchandise</a></li>
+                <li><a href="offers.html"><i class="fa-solid fa-gift"></i> Offers</a></li>
+                <li><a href="gallery.html"><i class="fa-solid fa-images"></i> Gallery</a></li>
+            </ul>
+
+            <div class="bb-dropdown-section-title">Support &amp; Info</div>
+            <ul class="bb-dropdown-list">
+                <li><a href="feedback.html"><i class="fa-solid fa-star"></i> Feedback</a></li>
+                <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+                <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> FAQ</a></li>
+                <li><a href="sitemap.html"><i class="fa-solid fa-sitemap"></i> Sitemap</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- HERO SLIDER -->
+    <section class="bb-hero">
+        <div class="bb-hero-slide active" style="background-image: url('images/hero-1.png');"></div>
+        <div class="bb-hero-slide" style="background-image: url('images/hero-2.png');"></div>
+        <div class="bb-hero-slide" style="background-image: url('images/hero-3.png');"></div>
+
+        <button class="bb-hero-arrow bb-hero-arrow-left" aria-label="Previous Slide">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="bb-hero-inner">
+            <div class="bb-hero-content">
+                <p class="bb-hero-eyebrow">— Every Craving Deserves —</p>
+                <h1 class="bb-hero-title">
+                    Perfect <span>Bakes</span>
+                </h1>
+                <p class="bb-hero-text">
+                    Cakes, pastries, cookies and pies — freshly baked with love
+                    and the finest ingredients. <strong>Where smiles are served daily.</strong>
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="menu.html" class="btn bb-btn-primary">
+                        Explore Our Menu <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                    <a href="about.html" class="btn bb-btn-outline">
+                        Discover Our Story
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <button class="bb-hero-arrow bb-hero-arrow-right" aria-label="Next Slide">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <div class="bb-hero-dots">
+            <span class="active" data-slide="0"></span>
+            <span data-slide="1"></span>
+            <span data-slide="2"></span>
+        </div>
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section class="bb-categories">
+        <div class="container">
+            <div class="bb-section-heading text-center">
+                <p class="bb-section-label">Our Specialties</p>
+                <h2>Something Sweet for Everyone</h2>
+                <p>From celebration cakes to freshly baked cookies,
+                   we have something to make every moment special.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <a href="menu.html#cakes" class="bb-category-card d-block h-100">
+                        <div class="bb-category-icon"><i class="fa-solid fa-cake-candles"></i></div>
+                        <h3>Cakes</h3>
+                        <p>Beautiful cakes for every celebration.</p>
+                        <span>Explore <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="menu.html#pastries" class="bb-category-card d-block h-100">
+                        <div class="bb-category-icon"><i class="fa-solid fa-bread-slice"></i></div>
+                        <h3>Pastries</h3>
+                        <p>Fresh, flaky and delicious pastries.</p>
+                        <span>Explore <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="menu.html#cookies" class="bb-category-card d-block h-100">
+                        <div class="bb-category-icon"><i class="fa-solid fa-cookie-bite"></i></div>
+                        <h3>Cookies</h3>
+                        <p>Crunchy, soft and freshly baked cookies.</p>
+                        <span>Explore <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="menu.html#pies" class="bb-category-card d-block h-100">
+                        <div class="bb-category-icon"><i class="fa-solid fa-apple-whole"></i></div>
+                        <h3>Pies</h3>
+                        <p>Homemade pies packed with delicious flavor.</p>
+                        <span>Explore <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FEATURED PRODUCTS (Double Image Hover) -->
+    <section class="bb-featured">
+        <div class="container">
+            <div class="bb-section-heading text-center">
+                <p class="bb-section-label">Customer Favorites</p>
+                <h2>Our Most Loved Treats</h2>
+                <p>Hover over any product to see more images &amp; click for details.</p>
+            </div>
+
+            <div class="row g-4">
+
+                <!-- Chocolate Cake -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="bb-uk-card h-100" data-product="chocolate-cake">
+                        <div class="bb-uk-card-head">
+                            <div class="bb-size-pills">
+                                <span class="active">SMALL</span>
+                                <span>MEDIUM</span>
+                            </div>
+                            <div class="bb-uk-card-price-row">
+                                <span class="bb-price-label">From <strong>Rs. 1,800</strong></span>
+                                <button class="bb-add-btn" type="button">ADD</button>
+                            </div>
+                        </div>
+                        <div class="bb-uk-card-img">
+                            <img class="bb-img-primary" src="images/chocolate-cake-1.png" alt="Chocolate Cake">
+                            <img class="bb-img-hover" src="images/chocolate-cake-2.png" alt="Chocolate Cake Alternate">
+                        </div>
+                        <div class="bb-uk-card-body">
+                            <h3>CHOCOLATE CAKE</h3>
+                            <p>Rich, moist chocolate cake with creamy chocolate frosting and shavings.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Butter Croissant -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="bb-uk-card h-100" data-product="butter-croissant">
+                        <div class="bb-uk-card-head">
+                            <div class="bb-size-pills">
+                                <span class="active">SMALL</span>
+                                <span>MEDIUM</span>
+                            </div>
+                            <div class="bb-uk-card-price-row">
+                                <span class="bb-price-label">From <strong>Rs. 350</strong></span>
+                                <button class="bb-add-btn" type="button">ADD</button>
+                            </div>
+                        </div>
+                        <div class="bb-uk-card-img">
+                            <img class="bb-img-primary" src="images/croissant-1.png" alt="Butter Croissant">
+                            <img class="bb-img-hover" src="images/croissant-2.png" alt="Butter Croissant Alternate">
+                        </div>
+                        <div class="bb-uk-card-body">
+                            <h3>BUTTER CROISSANT</h3>
+                            <p>Golden, flaky and buttery croissants baked fresh every morning.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chocolate Chip Cookies -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="bb-uk-card h-100" data-product="chocolate-chip-cookies">
+                        <div class="bb-uk-card-head">
+                            <div class="bb-size-pills">
+                                <span class="active">SMALL</span>
+                                <span>MEDIUM</span>
+                            </div>
+                            <div class="bb-uk-card-price-row">
+                                <span class="bb-price-label">From <strong>Rs. 250</strong></span>
+                                <button class="bb-add-btn" type="button">ADD</button>
+                            </div>
+                        </div>
+                        <div class="bb-uk-card-img">
+                            <img class="bb-img-primary" src="images/chocolate-chip-cookies-1.png" alt="Chocolate Chip Cookies">
+                            <img class="bb-img-hover" src="images/chocolate-chip-cookies-2.png" alt="Chocolate Chip Cookies Alternate">
+                        </div>
+                        <div class="bb-uk-card-body">
+                            <h3>CHOCOLATE CHIP COOKIES</h3>
+                            <p>Soft and chewy cookies loaded with premium chocolate chips.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apple Pie -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="bb-uk-card h-100" data-product="apple-pie">
+                        <div class="bb-uk-card-head">
+                            <div class="bb-size-pills">
+                                <span class="active">SMALL</span>
+                                <span>MEDIUM</span>
+                            </div>
+                            <div class="bb-uk-card-price-row">
+                                <span class="bb-price-label">From <strong>Rs. 950</strong></span>
+                                <button class="bb-add-btn" type="button">ADD</button>
+                            </div>
+                        </div>
+                        <div class="bb-uk-card-img">
+                            <img class="bb-img-primary" src="images/apple-pie-1.png" alt="Apple Pie">
+                            <span class="bb-new-badge">NEW ARRIVAL</span>
+                            <img class="bb-img-hover" src="images/apple-pie-2.png" alt="Apple Pie Alternate">
+                        </div>
+                        <div class="bb-uk-card-body">
+                            <h3>CLASSIC APPLE PIE</h3>
+                            <p>Homemade apple pie with a delicious buttery crust and cinnamon apples.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="menu.html" class="btn bb-btn-primary">
+                    View Full Menu <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- OFFERS -->
+    <section class="bb-offers-section" id="offers">
+        <div class="container">
+            <div class="bb-section-heading text-center">
+                <p class="bb-section-label">Sweet Deals</p>
+                <h2>Current Offers &amp; Discounts</h2>
+                <p>Grab these amazing deals before they're gone!</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="bb-offer-card">
+                        <div class="bb-offer-badge">20% OFF</div>
+                        <div class="bb-offer-icon-sm"><i class="fa-solid fa-birthday-cake"></i></div>
+                        <h3>Birthday Special</h3>
+                        <p>Get 20% off on all birthday cakes. Valid on pre-orders above Rs. 2,000.</p>
+                        <span class="bb-offer-valid">Valid till 31 Dec 2026</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="bb-offer-card">
+                        <div class="bb-offer-badge">15% OFF</div>
+                        <div class="bb-offer-icon-sm"><i class="fa-solid fa-calendar-week"></i></div>
+                        <h3>Weekend Special</h3>
+                        <p>Enjoy 15% off on all pastries every Saturday &amp; Sunday.</p>
+                        <span class="bb-offer-valid">Every Weekend</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="bb-offer-card">
+                        <div class="bb-offer-badge">Rs. 500 OFF</div>
+                        <div class="bb-offer-icon-sm"><i class="fa-solid fa-box-open"></i></div>
+                        <h3>Family Box</h3>
+                        <p>Flat Rs. 500 off on family celebration boxes.</p>
+                        <span class="bb-offer-valid">Limited Time</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="bb-offer-card">
+                        <div class="bb-offer-badge">COMBO</div>
+                        <div class="bb-offer-icon-sm"><i class="fa-solid fa-mug-hot"></i></div>
+                        <h3>Cake + Coffee</h3>
+                        <p>Any slice of cake + hot coffee at just Rs. 750.</p>
+                        <span class="bb-offer-valid">All Day</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="bb-offer-card">
+                        <div class="bb-offer-badge">BUY 1 GET 1</div>
+                        <div class="bb-offer-icon-sm"><i class="fa-solid fa-cookie"></i></div>
+                        <h3>Cookie Box</h3>
+                        <p>Buy 1 cookie box, get 1 free.</p>
+                        <span class="bb-offer-valid">Fri - Sun</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="bb-offer-card">
+                        <div class="bb-offer-badge">SEASONAL</div>
+                        <div class="bb-offer-icon-sm"><i class="fa-solid fa-snowflake"></i></div>
+                        <h3>Winter Warmers</h3>
+                        <p>Special discounts on hot beverages and seasonal pies.</p>
+                        <span class="bb-offer-valid">Dec - Feb</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- GALLERY (6 Images) -->
+    <section class="bb-gallery">
+        <div class="container">
+            <div class="bb-section-heading text-center">
+                <p class="bb-section-label">Sweet Moments</p>
+                <h2>Fresh From Our Bakery</h2>
+                <p>Take a little look at what we bake with love every day.</p>
+            </div>
+
+            <div class="bb-gallery-grid">
+                <div class="bb-gallery-item bb-gallery-large">
+                    <img src="images/gallery-cake.png" alt="Bakerz Bite Cake">
+                </div>
+                <div class="bb-gallery-item">
+                    <img src="images/gallery-pastry.png" alt="Fresh Pastries">
+                </div>
+                <div class="bb-gallery-item">
+                    <img src="images/gallery-cookies.png" alt="Fresh Cookies">
+                </div>
+                <div class="bb-gallery-item">
+                    <img src="images/gallery-pie.png" alt="Fresh Pie">
+                </div>
+                <div class="bb-gallery-item">
+                    <img src="images/gallery-bread.png" alt="Fresh Bread">
+                </div>
+                <div class="bb-gallery-item bb-gallery-last">
+                    <img src="images/gallery-merchandise.png" alt="Bakerz Bite Merchandise">
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="gallery.html" class="btn bb-btn-outline">
+                    View Full Gallery <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA -->
+    <section class="bb-cta">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <p class="bb-section-label">Have a Question?</p>
+                    <h2 class="bb-cta-title">
+                        Let's Make Something <span>Delicious Together!</span>
+                    </h2>
+                    <p class="bb-cta-text">
+                        Have a custom cake idea or want to know more
+                        about our products? We'd love to hear from you.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end text-center">
+                    <a href="contact.html" class="btn bb-btn-primary">
+                        Contact Us <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="bb-footer">
+        <div class="container">
+            <div class="row g-5 pb-5">
+                <div class="col-lg-4">
+                    <a href="index.html" class="bb-footer-logo">
+                        <img src="images/logo.png" alt="Bakerz Bite Logo">
+                        <span>Bakerz Bite</span>
+                    </a>
+                    <p class="bb-footer-text">
+                        Freshly baked happiness, one delicious bite at a time.
+                    </p>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="#" class="bb-social"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="bb-social"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="bb-social"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h3 class="bb-footer-title">Quick Links</h3>
+                    <a href="index.html" class="bb-footer-link">Home</a>
+                    <a href="about.html" class="bb-footer-link">About Us</a>
+                    <a href="menu.html" class="bb-footer-link">Our Menu</a>
+                    <a href="merchandise.html" class="bb-footer-link">Merchandise</a>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h3 class="bb-footer-title">Explore</h3>
+                    <a href="#offers" class="bb-footer-link">Offers</a>
+                    <a href="gallery.html" class="bb-footer-link">Gallery</a>
+                    <a href="feedback.html" class="bb-footer-link">Feedback</a>
+                    <a href="faq.html" class="bb-footer-link">FAQ</a>
+                </div>
+
+                <div class="col-lg-4">
+                    <h3 class="bb-footer-title">Contact Us</h3>
+                    <p class="bb-footer-contact"><i class="fa-solid fa-location-dot"></i> 123 Baker Street, DHA Phase 6, Karachi</p>
+                    <p class="bb-footer-contact"><i class="fa-solid fa-phone"></i> 021-111-022-022</p>
+                    <p class="bb-footer-contact"><i class="fa-solid fa-envelope"></i> hello@bakerzbite.com</p>
+                </div>
+            </div>
+            <div class="bb-footer-bottom text-center">
+                <p>© 2026 Bakerz Bite. All Rights Reserved. | Where Smiles Are Served Daily.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- FLOATING BUTTONS -->
+    <a href="https://wa.me/923001234567" class="bb-float bb-whatsapp" target="_blank" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <button class="bb-float bb-scroll-top" id="scrollTopBtn" aria-label="Scroll to Top">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+
+    <!-- BOTTOM TICKER -->
+    <div class="bb-ticker">
+        <div class="bb-ticker-track" id="tickerTrack"></div>
+    </div>
+
+
+    <!-- PRODUCT MODAL -->
+    <div class="modal fade bb-product-modal" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="row g-0 bb-modal-row">
+                    <div class="col-lg-6 bb-modal-img-col">
+                        <button class="bb-modal-arrow bb-modal-arrow-left" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <img id="pmodalImg" src="" alt="Product">
+                        <button class="bb-modal-arrow bb-modal-arrow-right" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                        <div class="bb-modal-img-title" id="pmodalImgTitle">Product</div>
+                    </div>
+                    <div class="col-lg-6 bb-modal-info-col">
+                        <div class="bb-modal-header">
+                            <h2 class="bb-modal-price" id="pmodalPrice">Rs. 0</h2>
+                            <div class="bb-modal-header-icons">
+                                <button class="bb-modal-icon-btn" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></button>
+                                <button class="bb-modal-icon-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+                        <p class="bb-modal-desc" id="pmodalDesc">Product description will appear here.</p>
+                        <div class="bb-modal-section">
+                            <h4 class="bb-modal-section-title">CHOOSE AN OPTION</h4>
+                            <div class="bb-modal-options" id="pmodalOptions"></div>
+                        </div>
+                        <div class="bb-modal-section">
+                            <h4 class="bb-modal-section-title">Special Instructions</h4>
+                            <textarea class="bb-modal-textarea" id="pmodalNotes" maxlength="500"
+                                      placeholder="Please enter instructions about this item"></textarea>
+                            <div class="bb-modal-charcount"><span id="pmodalCharCount">0</span>/500</div>
+                        </div>
+                        <div class="bb-modal-footer">
+                            <div class="bb-qty-box">
+                                <button class="bb-qty-btn bb-qty-minus" aria-label="Decrease"><i class="fa-solid fa-trash"></i></button>
+                                <span class="bb-qty-value" id="pmodalQty">1</span>
+                                <button class="bb-qty-btn bb-qty-plus" aria-label="Increase"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <button class="bb-add-cart-btn" id="pmodalAddCart">
+                                <span id="pmodalTotalPrice">Rs. 0</span>
+                                <span class="bb-add-cart-divider">|</span>
+                                <span>Add to Cart</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- OUR LOCATIONS MODAL -->
+    <div class="modal fade" id="signinModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius:20px; border:none;">
+                <div class="modal-header" style="background:#B21E29; color:#fff; border-radius:20px 20px 0 0;">
+                    <h5 class="modal-title"><i class="fa-solid fa-location-dot"></i> Our Locations</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p style="color:#76565A; font-size:14px; margin-bottom:15px;">Visit us at any of our locations:</p>
+                    <div style="padding:12px; background:#fdf1f2; border-radius:12px; margin-bottom:10px;">
+                        <strong style="color:#B21E29; font-size:14px;">Bakerz Bite Shahfaisal</strong>
+                        <p style="font-size:13px; color:#76565A; margin:4px 0 0;">Plot 64, Ibrahim Residency, Main Alamgir Road</p>
+                    </div>
+                    <div style="padding:12px; background:#fdf1f2; border-radius:12px; margin-bottom:10px;">
+                        <strong style="color:#B21E29; font-size:14px;">Bakerz Bite DHA Phase 6</strong>
+                        <p style="font-size:13px; color:#76565A; margin:4px 0 0;">123 Baker Street, DHA Phase 6</p>
+                    </div>
+                    <div style="padding:12px; background:#fdf1f2; border-radius:12px; margin-bottom:10px;">
+                        <strong style="color:#B21E29; font-size:14px;">Bakerz Bite Gulshan</strong>
+                        <p style="font-size:13px; color:#76565A; margin:4px 0 0;">Plot 45, Block 13-D, Gulshan-e-Iqbal</p>
+                    </div>
+                    <div style="padding:12px; background:#fdf1f2; border-radius:12px;">
+                        <strong style="color:#B21E29; font-size:14px;">Bakerz Bite Clifton</strong>
+                        <p style="font-size:13px; color:#76565A; margin:4px 0 0;">Shop 12, Boat Basin, Clifton Block 5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    (function () {
+        "use strict";
+
+        /* =========================================================
+           PRODUCT DATA — Har product mein multiple images
+        ========================================================= */
+        const PRODUCTS = {
+            "chocolate-cake": {
+                name: "Chocolate Cake",
+                images: [
+                    "images/chocolate-cake-1.png",
+                    "images/chocolate-cake-2.png"
+                ],
+                desc: "Rich, moist chocolate cake layered with creamy chocolate frosting and topped with chocolate shavings. Perfect for celebrations.",
+                options: [{ name: "SMALL", price: 1800 }, { name: "MEDIUM", price: 3200 }]
+            },
+            "butter-croissant": {
+                name: "Butter Croissant",
+                images: [
+                    "images/croissant-1.png",
+                    "images/croissant-2.png"
+                ],
+                desc: "Golden, flaky and buttery croissants baked fresh every morning.",
+                options: [{ name: "SMALL", price: 350 }, { name: "LARGE", price: 640 }]
+            },
+            "chocolate-chip-cookies": {
+                name: "Chocolate Chip Cookies",
+                images: [
+                    "images/chocolate-chip-cookies-1.png",
+                    "images/chocolate-chip-cookies-2.png"
+                ],
+                desc: "Soft and chewy cookies loaded with premium chocolate chips.",
+                options: [{ name: "SMALL (6 PCS)", price: 250 }, { name: "LARGE (12 PCS)", price: 465 }]
+            },
+            "apple-pie": {
+                name: "Classic Apple Pie",
+                images: [
+                    "images/apple-pie-1.png",
+                    "images/apple-pie-2.png"
+                ],
+                desc: "Homemade apple pie with a delicious buttery crust and cinnamon-spiced apples.",
+                options: [{ name: "SMALL", price: 950 }, { name: "MEDIUM", price: 1750 }]
+            }
+        };
+
+        /* ---------- TICKER ---------- */
+        function initTicker() {
+            const track = document.getElementById("tickerTrack");
+            if (!track) return;
+            let locationText = "Karachi, Pakistan";
+            function buildContent(loc) {
+                const now = new Date();
+                const dateStr = now.toLocaleDateString("en-PK", { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
+                const timeStr = now.toLocaleTimeString("en-PK", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+                return `
+                    <span><i class="fa-solid fa-calendar-days"></i> <strong>Date:</strong> ${dateStr}</span>
+                    <span><i class="fa-solid fa-clock"></i> <strong>Time:</strong> ${timeStr}</span>
+                    <span><i class="fa-solid fa-location-dot"></i> <strong>Location:</strong> ${loc}</span>
+                    <span><i class="fa-solid fa-cake-candles"></i> Welcome to Bakerz Bite — Where Smiles Are Served Daily!</span>
+                `;
+            }
+            function refresh() { track.innerHTML = buildContent(locationText) + buildContent(locationText); }
+            refresh();
+            setInterval(refresh, 1000);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (pos) {
+                        const lat = pos.coords.latitude.toFixed(3);
+                        const lon = pos.coords.longitude.toFixed(3);
+                        locationText = `Lat ${lat}, Lon ${lon}`;
+                        refresh();
+                    },
+                    function () {},
+                    { timeout: 8000 }
+                );
+            }
+        }
+
+        /* ---------- LOCATION POPUP ---------- */
+        function initLocationPopup() {
+            const popup = document.getElementById("locPopup");
+            if (!popup) return;
+
+            if (!sessionStorage.getItem("bb_location_chosen")) {
+                setTimeout(() => popup.classList.add("show"), 300);
+            }
+
+            const toggleBtns = popup.querySelectorAll(".bb-order-toggle button");
+            const question = document.getElementById("locQuestion");
+            toggleBtns.forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    toggleBtns.forEach(b => b.classList.remove("active"));
+                    this.classList.add("active");
+                    const mode = this.getAttribute("data-mode");
+                    question.textContent = mode === "pickup"
+                        ? "Which outlet would you like to pick-up from?"
+                        : "Which outlet would you like to order from?";
+                });
+            });
+
+            const branchSelect = document.getElementById("branchSelect");
+            const branchName = document.getElementById("branchName");
+            const branchAddress = document.getElementById("branchAddress");
+            const branchDirections = document.getElementById("branchDirections");
+
+            function updateBranchDetails() {
+                const opt = branchSelect.options[branchSelect.selectedIndex];
+                branchName.textContent = opt.getAttribute("data-name");
+                branchAddress.textContent = "Address: " + opt.getAttribute("data-address");
+                const lat = opt.getAttribute("data-lat");
+                const lng = opt.getAttribute("data-lng");
+                branchDirections.href = "https://www.google.com/maps/dir/?api=1&destination=" + lat + "," + lng;
+            }
+            branchSelect.addEventListener("change", updateBranchDetails);
+            updateBranchDetails();
+
+            const useBtn = document.getElementById("useCurrentLocBtn");
+            useBtn.addEventListener("click", function () {
+                if (!navigator.geolocation) { alert("Geolocation not supported."); return; }
+                useBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Locating...';
+                useBtn.disabled = true;
+                navigator.geolocation.getCurrentPosition(
+                    function (pos) {
+                        const lat = pos.coords.latitude;
+                        const lng = pos.coords.longitude;
+                        let nearest = null, minDist = Infinity;
+                        branchSelect.querySelectorAll("option").forEach(function (opt) {
+                            const bLat = parseFloat(opt.getAttribute("data-lat"));
+                            const bLng = parseFloat(opt.getAttribute("data-lng"));
+                            const d = Math.sqrt(Math.pow(lat - bLat, 2) + Math.pow(lng - bLng, 2));
+                            if (d < minDist) { minDist = d; nearest = opt.value; }
+                        });
+                        if (nearest) { branchSelect.value = nearest; updateBranchDetails(); }
+                        useBtn.innerHTML = '<i class="fa-solid fa-check"></i> Location Detected';
+                        setTimeout(function () {
+                            useBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Use Current Location';
+                            useBtn.disabled = false;
+                        }, 2000);
+                    },
+                    function () {
+                        alert("Unable to get location. Select branch manually.");
+                        useBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Use Current Location';
+                        useBtn.disabled = false;
+                    },
+                    { timeout: 10000 }
+                );
+            });
+
+            const selectBtn = document.getElementById("locSelectBtn");
+            const topbarBranchName = document.getElementById("topbarBranchName");
+            const topbarLocationPill = document.getElementById("topbarLocationPill");
+
+            selectBtn.addEventListener("click", function () {
+                const opt = branchSelect.options[branchSelect.selectedIndex];
+                const name = opt.getAttribute("data-name");
+                sessionStorage.setItem("bb_location_chosen", "yes");
+                sessionStorage.setItem("bb_location_name", name);
+                if (topbarBranchName) topbarBranchName.textContent = name;
+                popup.classList.remove("show");
+            });
+
+            if (sessionStorage.getItem("bb_location_chosen")) {
+                const savedName = sessionStorage.getItem("bb_location_name");
+                if (topbarBranchName && savedName) topbarBranchName.textContent = savedName;
+            }
+
+            if (topbarLocationPill) {
+                topbarLocationPill.addEventListener("click", function () {
+                    popup.classList.add("show");
+                });
+            }
+        }
+
+        /* ---------- CART ---------- */
+        function updateCartBadge() {
+            try {
+                const items = JSON.parse(localStorage.getItem("bb_cart") || "[]");
+                document.querySelectorAll(".bb-cart-count").forEach(function (el) {
+                    el.textContent = items.length;
+                });
+            } catch (e) {}
+        }
+
+        function addToCart(name, price, qty, notes) {
+            try {
+                const items = JSON.parse(localStorage.getItem("bb_cart") || "[]");
+                for (let i = 0; i < qty; i++) {
+                    items.push({ name: name, price: price, notes: notes || "", time: Date.now() });
+                }
+                localStorage.setItem("bb_cart", JSON.stringify(items));
+                updateCartBadge();
+                showToast(name + " added to cart!");
+            } catch (e) {}
+        }
+
+        /* ---------- TOAST ---------- */
+        let toastEl = null, toastTimer = null;
+        function showToast(msg) {
+            if (!toastEl) {
+                toastEl = document.createElement("div");
+                toastEl.className = "bb-toast";
+                toastEl.innerHTML = '<i class="fa-solid fa-circle-check"></i><span></span>';
+                document.body.appendChild(toastEl);
+            }
+            toastEl.querySelector("span").textContent = msg;
+            toastEl.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 2500);
+        }
+
+        /* ---------- PRODUCT MODAL WITH IMAGE SLIDER ---------- */
+        let currentProductKey = null;
+        let currentOptionIndex = 0;
+        let currentQty = 1;
+        let modalImageIndex = 0;
+
+        function openProductModal(key) {
+            const p = PRODUCTS[key];
+            if (!p) return;
+            currentProductKey = key;
+            currentOptionIndex = 0;
+            currentQty = 1;
+            modalImageIndex = 0;
+
+            // Set primary image (first)
+            document.getElementById("pmodalImg").src = p.images[0];
+            document.getElementById("pmodalImgTitle").textContent = p.name;
+            document.getElementById("pmodalDesc").textContent = p.desc;
+            document.getElementById("pmodalQty").textContent = "1";
+            document.getElementById("pmodalNotes").value = "";
+            document.getElementById("pmodalCharCount").textContent = "0";
+
+            // Show/hide arrows based on image count
+            const leftArrow = document.querySelector(".bb-modal-arrow-left");
+            const rightArrow = document.querySelector(".bb-modal-arrow-right");
+            if (p.images.length <= 1) {
+                if (leftArrow) leftArrow.style.display = "none";
+                if (rightArrow) rightArrow.style.display = "none";
+            } else {
+                if (leftArrow) leftArrow.style.display = "grid";
+                if (rightArrow) rightArrow.style.display = "grid";
+            }
+
+            renderOptions(p);
+            updateTotalPrice(p);
+            updatePriceHeader(p);
+            new bootstrap.Modal(document.getElementById("productModal")).show();
+        }
+
+        function renderOptions(p) {
+            const box = document.getElementById("pmodalOptions");
+            box.innerHTML = p.options.map((opt, i) => `
+                <div class="bb-option-pill ${i === 0 ? "active" : ""}" data-index="${i}">
+                    <span class="bb-option-radio"></span>
+                    <div class="bb-option-info">
+                        <span class="bb-option-name">${opt.name}</span>
+                        <span class="bb-option-price">Rs. ${opt.price.toLocaleString()}</span>
+                    </div>
+                </div>
+            `).join("");
+            box.querySelectorAll(".bb-option-pill").forEach(function (pill) {
+                pill.addEventListener("click", function () {
+                    box.querySelectorAll(".bb-option-pill").forEach(x => x.classList.remove("active"));
+                    this.classList.add("active");
+                    currentOptionIndex = parseInt(this.getAttribute("data-index"), 10);
+                    updateTotalPrice(p);
+                    updatePriceHeader(p);
+                });
+            });
+        }
+
+        function updatePriceHeader(p) {
+            document.getElementById("pmodalPrice").textContent = "Rs. " + p.options[currentOptionIndex].price.toLocaleString();
+        }
+        function updateTotalPrice(p) {
+            const total = p.options[currentOptionIndex].price * currentQty;
+            document.getElementById("pmodalTotalPrice").textContent = "Rs. " + total.toLocaleString();
+        }
+
+        /* Modal image slider arrows */
+        function initModalImageSlider() {
+            const leftArrow = document.querySelector(".bb-modal-arrow-left");
+            const rightArrow = document.querySelector(".bb-modal-arrow-right");
+            if (!leftArrow || !rightArrow) return;
+
+            leftArrow.addEventListener("click", function (e) {
+                e.stopPropagation();
+                const p = PRODUCTS[currentProductKey];
+                if (!p || !p.images || p.images.length <= 1) return;
+                modalImageIndex = (modalImageIndex - 1 + p.images.length) % p.images.length;
+                document.getElementById("pmodalImg").src = p.images[modalImageIndex];
+            });
+
+            rightArrow.addEventListener("click", function (e) {
+                e.stopPropagation();
+                const p = PRODUCTS[currentProductKey];
+                if (!p || !p.images || p.images.length <= 1) return;
+                modalImageIndex = (modalImageIndex + 1) % p.images.length;
+                document.getElementById("pmodalImg").src = p.images[modalImageIndex];
+            });
+        }
+
+        /* ---------- PRODUCT CARDS ---------- */
+        function initProductCards() {
+            document.querySelectorAll(".bb-uk-card").forEach(function (card) {
+                card.addEventListener("click", function (e) {
+                    if (e.target.closest(".bb-size-pills") || e.target.closest(".bb-add-btn")) return;
+                    openProductModal(this.getAttribute("data-product"));
+                });
+                const addBtn = card.querySelector(".bb-add-btn");
+                if (addBtn) {
+                    addBtn.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        openProductModal(card.getAttribute("data-product"));
+                    });
+                }
+                card.querySelectorAll(".bb-size-pills span").forEach(function (pill) {
+                    pill.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        card.querySelectorAll(".bb-size-pills span").forEach(p => p.classList.remove("active"));
+                        this.classList.add("active");
+                    });
+                });
+            });
+        }
+
+        /* ---------- MODAL ACTIONS ---------- */
+        function initModalActions() {
+            const qtyPlus = document.querySelector(".bb-qty-plus");
+            const qtyMinus = document.querySelector(".bb-qty-minus");
+            const qtyVal = document.getElementById("pmodalQty");
+            const notes = document.getElementById("pmodalNotes");
+            const charCount = document.getElementById("pmodalCharCount");
+            const addCartBtn = document.getElementById("pmodalAddCart");
+
+            if (qtyPlus) qtyPlus.addEventListener("click", function () {
+                currentQty += 1;
+                qtyVal.textContent = currentQty;
+                updateTotalPrice(PRODUCTS[currentProductKey]);
+            });
+            if (qtyMinus) qtyMinus.addEventListener("click", function () {
+                if (currentQty > 1) {
+                    currentQty -= 1;
+                    qtyVal.textContent = currentQty;
+                    updateTotalPrice(PRODUCTS[currentProductKey]);
+                }
+            });
+            if (notes) notes.addEventListener("input", function () {
+                charCount.textContent = this.value.length;
+            });
+            if (addCartBtn) addCartBtn.addEventListener("click", function () {
+                const p = PRODUCTS[currentProductKey];
+                if (!p) return;
+                const opt = p.options[currentOptionIndex];
+                const noteText = notes ? notes.value.trim() : "";
+                addToCart(p.name + " (" + opt.name + ")", opt.price, currentQty, noteText);
+                const modal = bootstrap.Modal.getInstance(document.getElementById("productModal"));
+                if (modal) modal.hide();
+            });
+        }
+
+        /* ---------- HERO SLIDER ---------- */
+        function initHeroSlider() {
+            const slides = document.querySelectorAll(".bb-hero-slide");
+            const dots = document.querySelectorAll(".bb-hero-dots span");
+            const leftArrow = document.querySelector(".bb-hero-arrow-left");
+            const rightArrow = document.querySelector(".bb-hero-arrow-right");
+            if (!slides.length) return;
+            let current = 0, autoTimer = null;
+            function setSlide(i) {
+                slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+                dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
+                current = i;
+            }
+            function nextSlide() { setSlide((current + 1) % slides.length); }
+            function prevSlide() { setSlide((current - 1 + slides.length) % slides.length); }
+            function startAuto() {
+                clearInterval(autoTimer);
+                autoTimer = setInterval(nextSlide, 5000);
+            }
+            dots.forEach(function (dot, i) {
+                dot.addEventListener("click", function () { setSlide(i); startAuto(); });
+            });
+            if (leftArrow) leftArrow.addEventListener("click", function () { prevSlide(); startAuto(); });
+            if (rightArrow) rightArrow.addEventListener("click", function () { nextSlide(); startAuto(); });
+            startAuto();
+        }
+
+        /* ---------- DROPDOWN MENU ---------- */
+        function initDropdownMenu() {
+            const toggle = document.getElementById("bbMenuToggle");
+            const panel = document.getElementById("bbDropdownPanel");
+            const overlay = document.getElementById("bbDropdownOverlay");
+            const closeBtn = document.getElementById("bbDropdownClose");
+
+            if (!toggle || !panel) return;
+
+            function openMenu() {
+                panel.classList.add("show");
+                overlay.classList.add("show");
+                document.body.style.overflow = "hidden";
+            }
+            function closeMenu() {
+                panel.classList.remove("show");
+                overlay.classList.remove("show");
+                document.body.style.overflow = "";
+            }
+
+            toggle.addEventListener("click", openMenu);
+            closeBtn.addEventListener("click", closeMenu);
+            overlay.addEventListener("click", closeMenu);
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") closeMenu();
+            });
+        }
+
+        /* ---------- SCROLL TOP ---------- */
+        function initScrollTop() {
+            const btn = document.getElementById("scrollTopBtn");
+            if (!btn) return;
+            window.addEventListener("scroll", function () {
+                btn.classList.toggle("show", window.scrollY > 400);
+            });
+            btn.addEventListener("click", function () {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        }
+
+        /* ---------- INIT ALL ---------- */
+        document.addEventListener("DOMContentLoaded", function () {
+            initTicker();
+            initLocationPopup();
+            updateCartBadge();
+            initProductCards();
+            initModalActions();
+            initModalImageSlider();
+            initHeroSlider();
+            initDropdownMenu();
+            initScrollTop();
+            console.log("🍰 Bakerz Bite Home Page Loaded!");
+        });
+
+    })();
+    </script>
+
+</body>
+</html>
